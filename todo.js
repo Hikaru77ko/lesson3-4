@@ -11,13 +11,17 @@ addButton.addEventListener('click', () => {
     text: addTextValue,
     status: '作業中'
     };
-  tasks.push(task);
-  addText.value = '';
-  displayTasks();
-  });
+  if (addTextValue === '') {
+    alert('新規タスクを入力して下さい');
+  } else {
+    tasks.push(task);
+    addText.value = '';
+    displayTasks();
+  }
+});
 //tasksの中身をhtml上に表示
 const displayTasks = () => {
-  while(addContent.firstChild){
+  while (addContent.firstChild) {
     addContent.removeChild(addContent.firstChild);
   }
 
@@ -39,7 +43,7 @@ const displayTasks = () => {
     const deleteButton = document.createElement('button');
     deleteButton.textContent = '削除';
     //削除ボタンを押した時の挙動
-    deleteButton.addEventListener('click', () =>{
+    deleteButton.addEventListener('click', () => {
       deleteProcess(index)
     });
     //削除ボタンhtml表示
@@ -64,7 +68,7 @@ const displayTasks = () => {
     const inputComplete = document.querySelectorAll('input')[2];
     //作業中のボタンを押した時の挙動
       inputWorking.addEventListener('click', () => {
-        if(workingButton.textContent === '完了'){
+        if (workingButton.textContent === '完了') {
           addTr.classList.add('clear');
         } else {
           addTr.classList.remove('clear')
@@ -72,7 +76,7 @@ const displayTasks = () => {
       });
     //完了のボタンを押した時の挙動
     inputComplete.addEventListener('click', () => {
-        if(workingButton.textContent === '作業中'){
+        if (workingButton.textContent === '作業中') {
           addTr.classList.add('clear');
         } else {
           addTr.classList.remove('clear')
@@ -92,7 +96,7 @@ const deleteProcess = (index) => {
 };
 // 作業ボタン切り替え処理
 const workStateSwitch = (workingButton) =>{
-  if(workingButton.textContent === '作業中'){
+  if (workingButton.textContent === '作業中') {
     workingButton.textContent = '完了';
   } else {
     workingButton.textContent = '作業中';
