@@ -44,7 +44,7 @@ const displayTasks = () => {
     deleteButton.textContent = '削除';
     //削除ボタンを押した時の挙動
     deleteButton.addEventListener('click', () => {
-      deleteProcess(index)
+      deleteProcess(index);
     });
     //削除ボタンhtml表示
     addTdDelete.appendChild(deleteButton);
@@ -54,7 +54,7 @@ const displayTasks = () => {
     workingButton.textContent = todo.status;
     //作業ボタンを押した時の挙動
     workingButton.addEventListener('click', () => {
-      workStateSwitch(workingButton);
+      workStateSwitch(todo);
     });
     //作業ボタンhtml表示
     addTdWorking.appendChild(workingButton);
@@ -95,10 +95,11 @@ const deleteProcess = (index) => {
   displayTasks();
 };
 // 作業ボタン切り替え処理
-const workStateSwitch = (workingButton) =>{
-  if (workingButton.textContent === '作業中') {
-    workingButton.textContent = '完了';
+const workStateSwitch = (todo) => {
+  if (todo.status === '作業中') {
+    todo.status = '完了';
   } else {
-    workingButton.textContent = '作業中';
+    todo.status = '作業中';
   }
+  displayTasks();
 };
