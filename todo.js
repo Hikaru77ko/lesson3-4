@@ -1,31 +1,20 @@
 'use strict';
-
+//要素の取得
 const addContent = document.getElementById('output');
 const addText = document.getElementById('text_input');
 const addButton =document.getElementById('trigger');
+//配列の定義
 const tasks = [];
-//追加ボタンをクリックした時の挙動 テキストデータもリセット
-addButton.addEventListener('click', () => {
-  const addTextValue = addText.value;
-  const task = {
-    text: addTextValue,
-    status: '作業中'
-    };
-  if (addTextValue === '') {
-    alert('新規タスクを入力して下さい');
-  } else {
-    tasks.push(task);
-    addText.value = '';
-    displayTasks();
-  }
-});
+// ラジオボタンの要素を取得
+const inputAll = document.querySelectorAll('input')[0];
+const inputWorking = document.querySelectorAll('input')[1];
+const inputComplete = document.querySelectorAll('input')[2];
 //tasksの中身をhtml上に表示
-const displayTasks = () => {
+const displayTasks = (todoObj) => {
   while (addContent.firstChild) {
     addContent.removeChild(addContent.firstChild);
   }
-
-  tasks.forEach((todo,index) => {
+  todoObj.forEach((todo,index) => {
     const addTr = document.createElement('tr');
     //それぞれのtdを作成
     const addTdId = document.createElement('td');
@@ -59,47 +48,66 @@ const displayTasks = () => {
     //作業ボタンhtml表示
     addTdWorking.appendChild(workingButton);
     addTr.appendChild(addTdWorking);
-    
     addContent.appendChild(addTr);
 
-    //ラジオボタンの要素を取得
-    const inputAll = document.querySelectorAll('input')[0];
-    const inputWorking = document.querySelectorAll('input')[1];
-    const inputComplete = document.querySelectorAll('input')[2];
-    //作業中のボタンを押した時の挙動
-      inputWorking.addEventListener('click', () => {
-        if (workingButton.textContent === '完了') {
-          addTr.classList.add('clear');
-        } else {
-          addTr.classList.remove('clear')
-        }
-      });
+    // 作業中のボタンを押した時の挙動
+    inputWorking.addEventListener('click', () => {
+      if (workingButton.textContent === '完了') {
+      addTr.classList.add('clear');
+      } else {
+      addTr.classList.remove('clear')
+      }
+    });
     //完了のボタンを押した時の挙動
     inputComplete.addEventListener('click', () => {
-        if (workingButton.textContent === '作業中') {
-          addTr.classList.add('clear');
-        } else {
-          addTr.classList.remove('clear')
-        }
-      });
-      //すべてのボタンを押した時の挙動
+      if (workingButton.textContent === '作業中') {
+      addTr.classList.add('clear');
+      } else {
+      addTr.classList.remove('clear')
+      }
+    });
+    //すべてのボタンを押した時の挙動
     inputAll.addEventListener('click', () => {
-          addTr.classList.remove('clear');
-        }
-      );
-  }); 
+      addTr.classList.remove('clear');
+    });
+    isRadioChecked(workingButton, addTr);
+  });
+};
+//ラジオボタンチェック時の出力
+const isRadioChecked = (workingButton,addTr) => {
+  if (inputWorking.checked && workingButton.textContent === '完了') {
+    addTr.classList.add('clear');
+  } else if (inputComplete.checked && workingButton.textContent === '作業中') {
+    addTr.classList.add('clear');
+  }
 };
 //削除ボタンの処理
 const deleteProcess = (index) => {
   tasks.splice(index, 1);
-  displayTasks();
+  displayTasks(tasks);
 };
-// 作業ボタン切り替え処理
+//作業ボタン切り替え処理
 const workStateSwitch = (todo) => {
   if (todo.status === '作業中') {
     todo.status = '完了';
   } else {
     todo.status = '作業中';
   }
-  displayTasks();
+  displayTasks(tasks);
 };
+
+//追加ボタンをクリックした時の挙動 テキストデータもリセット
+addButton.addEventListener('click', () => {
+  const addTextValue = addText.value;
+  const task = {
+    text: addTextValue,
+    status: '作業中'
+  };
+  if (addTextValue === '') {
+    alert('新規タスクを入力して下さい');
+  } else {
+    tasks.push(task);
+    addText.value = '';
+    displayTasks(tasks);
+  }
+});
