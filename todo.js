@@ -70,11 +70,11 @@ const displayTasks = (todoObj) => {
     inputAll.addEventListener('click', () => {
       addTr.classList.remove('clear');
     });
-    isRadioChecked(workingButton, addTr);
+    checkedRadio(workingButton, addTr);
   });
 };
 //ラジオボタンチェック時の出力
-const isRadioChecked = (workingButton,addTr) => {
+const checkedRadio = (workingButton,addTr) => {
   if (inputWorking.checked && workingButton.textContent === '完了') {
     addTr.classList.add('clear');
   } else if (inputComplete.checked && workingButton.textContent === '作業中') {
